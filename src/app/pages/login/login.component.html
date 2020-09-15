@@ -1,0 +1,70 @@
+<div class="container">
+  <!-- <img id="login-logo" src="assets/logo/logo.png" alt=""> -->
+
+  <div id="login-form-container">
+    <mat-tab-group>
+      <mat-tab label="Login">
+        <div class="tab-container">
+          <mat-card id="login-card">
+            <h2 class="pl-3">Login</h2>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                placeholder="exemplo@exemplo.com"
+                [formControl]="email"
+                required
+              />
+              <mat-error *ngIf="email.invalid">{{
+                getEmailErrorMessage()
+              }}</mat-error>
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Coloque sua senha</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                [formControl]="password"
+                required
+              />
+              <mat-error *ngIf="password.invalid">{{
+                getPasswordErrorMessage()
+              }}</mat-error>
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+
+              </button>
+            </mat-form-field>
+
+            <button mat-button color="primary">esqueceu a senha?</button>
+
+            <button id="login-button" class="btn-block" mat-raised-button>
+              Entrar
+            </button>
+          </mat-card>
+
+          <h1 id="or-tag">ou</h1>
+
+          <div class="d-flex justify-content-around">
+            <button id="google-sign-in" mat-button color="primary">
+              <img src="assets/icons/google.png" alt="" /> google
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Registar"> Registrar </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

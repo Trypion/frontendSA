@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "authfirebase-7a578": {
+      "hosting": {
+        "SpiceFront": [
+          "authfirebase-7a578"
+        ]
+      }
+    }
+  }
+}
