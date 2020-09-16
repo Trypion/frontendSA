@@ -14,12 +14,12 @@
                 <input
                   matInput
                   placeholder="exemplo@exemplo.com"
-                  [formControl]="email"
+                  formControlName="email"
                   required
                 />
-                <mat-error *ngIf="email.invalid">{{
-                  getEmailErrorMessage()
-                }}</mat-error>
+                <mat-error *ngIf="loginForm.hasError('required', 'email')"
+                  >Você precisa fornecer um email!</mat-error
+                >
                 <mat-icon color="primary" matSuffix>email</mat-icon>
               </mat-form-field>
 
@@ -27,22 +27,24 @@
                 <mat-label>Coloque sua senha</mat-label>
                 <input
                   matInput
-                  [type]="hide ? 'password' : 'text'"
-                  [formControl]="password"
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
                   required
                 />
-                <mat-error *ngIf="password.invalid">{{
-                  getPasswordErrorMessage()
-                }}</mat-error>
+                <mat-error
+                  *ngIf="loginForm.get('password').hasError('required')"
+                >
+                  Você precisa fornecer uma senha!
+                </mat-error>
                 <button
                   mat-icon-button
                   matSuffix
-                  (click)="hide = !hide"
+                  (click)="hidePassword = !hidePassword"
                   [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide"
+                  [attr.aria-pressed]="hidePassword"
                 >
                   <mat-icon color="primary">{{
-                    hide ? "visibility_off" : "visibility"
+                    hidePassword ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
               </mat-form-field>
@@ -68,18 +70,21 @@
       <mat-tab label="Registar">
         <div class="tab-container">
           <mat-card id="login-card">
+            <h2 class="pl-3">Registrar</h2>
             <form [formGroup]="registerForm">
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Nome</mat-label>
                 <input
                   matInput
                   placeholder="exemplo@exemplo.com"
-                  [formControl]="nome"
+                  formControlName="nome"
                   required
                 />
-                <mat-error *ngIf="nome.invalid">{{
-                  getNomeErrorMessage()
-                }}</mat-error>
+                <mat-error
+                  *ngIf="registerForm.get('nome').hasError('required')"
+                >
+                  Você precisa fornecer um nome!
+                </mat-error>
                 <mat-icon color="primary" matSuffix>person</mat-icon>
               </mat-form-field>
 
@@ -88,12 +93,12 @@
                 <input
                   matInput
                   placeholder="exemplo@exemplo.com"
-                  [formControl]="email"
+                  formControlName="email"
                   required
                 />
-                <mat-error *ngIf="email.invalid">{{
-                  getEmailErrorMessage()
-                }}</mat-error>
+                <mat-error *ngIf="registerForm.hasError('required', 'email')">
+                  Você precisa fornecer um email!
+                </mat-error>
                 <mat-icon color="primary" matSuffix>email</mat-icon>
               </mat-form-field>
 
@@ -101,22 +106,24 @@
                 <mat-label>Coloque sua senha</mat-label>
                 <input
                   matInput
-                  [type]="hide ? 'password' : 'text'"
-                  [formControl]="password"
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
                   required
                 />
-                <mat-error *ngIf="password.invalid">{{
-                  getPasswordErrorMessage()
-                }}</mat-error>
+                <mat-error
+                  *ngIf="registerForm.get('password').hasError('required')"
+                >
+                  Você precisa fornecer uma senha!
+                </mat-error>
                 <button
                   mat-icon-button
                   matSuffix
-                  (click)="hide = !hide"
+                  (click)="hidePassword = !hidePassword"
                   [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide"
+                  [attr.aria-pressed]="hidePassword"
                 >
                   <mat-icon color="primary">{{
-                    hide ? "visibility_off" : "visibility"
+                    hidePassword ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
               </mat-form-field>
@@ -125,25 +132,29 @@
                 <mat-label>Confirme sua senha</mat-label>
                 <input
                   matInput
-                  [type]="hide ? 'password' : 'text'"
-                  [formControl]="password"
-                  required
+                  [type]="hideConfirmPassword ? 'password' : 'text'"
+                  formControlName="confirmPassword"
+                  [errorStateMatcher]="matcher"
                 />
-                <mat-error *ngIf="password.invalid">{{
-                  getPasswordErrorMessage()
-                }}</mat-error>
+                <mat-error *ngIf="registerForm.hasError('notSame')">
+                  senhas não são iguais
+                </mat-error>
                 <button
                   mat-icon-button
                   matSuffix
-                  (click)="hide = !hide"
+                  (click)="hideConfirmPassword = !hideConfirmPassword"
                   [attr.aria-label]="'Hide password'"
-                  [attr.aria-pressed]="hide"
+                  [attr.aria-pressed]="hideConfirmPassword"
                 >
                   <mat-icon color="primary">{{
-                    hide ? "visibility_off" : "visibility"
+                    hideConfirmPassword ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
               </mat-form-field>
+
+              <button id="login-button" class="btn-block" mat-raised-button>
+                Registrar
+              </button>
             </form>
           </mat-card>
         </div>
