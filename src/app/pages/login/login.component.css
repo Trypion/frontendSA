@@ -9,8 +9,8 @@
 .tab-container{
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: center;
+  width: 100%;
 }
 
 button:focus,
@@ -61,3 +61,7 @@ button.active:focus {
   margin-bottom: 16px;
 }
 
+
+#register-container-tab{
+  width: 100%;
+}
