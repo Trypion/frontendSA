@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 
 //material imports
 import { MatTabsModule } from '@angular/material/tabs';
@@ -23,24 +24,16 @@ import { MatCardModule } from '@angular/material/card';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MainComponent } from './pages/main/main.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
-const config = {
-  apiKey: 'AIzaSyCGW7D8pQqUMk7vveU4KcE9fVs-n68Bm3w',
-  authDomain: 'authfirebase-7a578.firebaseapp.com',
-  databaseURL: 'https://authfirebase-7a578.firebaseio.com',
-  projectId: 'authfirebase-7a578',
-  storageBucket: 'authfirebase-7a578.appspot.com',
-  messagingSenderId: '903026548524',
-  appId: '1:903026548524:web:a8083f2c4b9caf305ad689',
-  measurementId: 'G-TDWWSBFDB3',
-};
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, MainComponent, NavBarComponent,],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(config),
+    AngularFireModule.initializeApp(environment.firebase),
     BrowserAnimationsModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,

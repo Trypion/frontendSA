@@ -6,11 +6,15 @@ import {
   FormGroupDirective,
   NgForm,
   FormBuilder,
-  ValidatorFn,
-  AbstractControl,
-  ValidationErrors,
 } from '@angular/forms';
+
 import { ErrorStateMatcher } from '@angular/material/core';
+
+//angular fire imports
+import { AngularFireAuth } from '@angular/fire/auth';
+// import { auth } from 'firebase/app';
+import * as firebase from 'firebase/app';
+import { AuthService } from '../../services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -43,7 +47,12 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    public auth: AuthService,
+    private formBuilder: FormBuilder,
+    public afAuth: AngularFireAuth
+  ) {
+    //form para registrar
     this.registerForm = this.formBuilder.group(
       {
         email: new FormControl(
@@ -77,6 +86,7 @@ export class LoginComponent implements OnInit {
       { validator: this.checkPasswords }
     );
 
+    //form de login
     this.loginForm = this.formBuilder.group({
       email: new FormControl(
         '',
@@ -89,6 +99,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  //metodo para checar confirmar o password
   checkPasswords(group: FormGroup) {
     // here we have the 'passwords' group
     let pass = group.controls.password.value;
@@ -97,6 +108,7 @@ export class LoginComponent implements OnInit {
     return pass === confirmPass ? null : { notSame: true };
   }
 
+  //mensagens de erros
   account_validation_messages = {
     name: [
       { type: 'required', message: 'Você precisa fornecer um nome!' },
@@ -137,6 +149,15 @@ export class LoginComponent implements OnInit {
       { type: 'pattern', message: 'You must accept terms and conditions' },
     ],
   };
+
+  //angular fire auth ======================================================================
+
+  tryRegister(form: FormGroup) {
+    console.log(form.value);
+    console.log(form.valid);
+    if (form.valid) {
+    }
+  }
 
   ngOnInit(): void {}
 }

@@ -1,5 +1,5 @@
 <div class="container">
-  <!-- <img id="login-logo" src="assets/logo/logo.png" alt=""> -->
+  <img id="login-logo" src="assets/logo/logo.png" alt="">
 
   <div id="login-form-container">
     <mat-tab-group>
@@ -18,8 +18,18 @@
                   formControlName="email"
                   required
                 />
-                <mat-error *ngFor="let validation of account_validation_messages.email">
-                  <mat-error class="error-message" *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">{{validation.message}}</mat-error>
+                <mat-error
+                  *ngFor="let validation of account_validation_messages.email"
+                >
+                  <mat-error
+                    class="error-message"
+                    *ngIf="
+                      loginForm.get('email').hasError(validation.type) &&
+                      (loginForm.get('email').dirty ||
+                        loginForm.get('email').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
                 </mat-error>
 
                 <mat-icon color="primary" matSuffix>email</mat-icon>
@@ -33,8 +43,20 @@
                   formControlName="password"
                   required
                 />
-                <mat-error *ngFor="let validation of account_validation_messages.password">
-                  <mat-error class="error-message" *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">{{validation.message}}</mat-error>
+                <mat-error
+                  *ngFor="
+                    let validation of account_validation_messages.password
+                  "
+                >
+                  <mat-error
+                    class="error-message"
+                    *ngIf="
+                      loginForm.get('password').hasError(validation.type) &&
+                      (loginForm.get('password').dirty ||
+                        loginForm.get('password').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
                 </mat-error>
                 <button
                   mat-icon-button
@@ -60,7 +82,7 @@
           <h1 id="or-tag">ou</h1>
 
           <div class="d-flex justify-content-around">
-            <button id="google-sign-in" mat-button color="primary">
+            <button id="google-sign-in" (click)="auth.googleSignin()" mat-button color="primary">
               <img src="assets/icons/google.png" alt="" /> google
             </button>
           </div>
@@ -71,6 +93,7 @@
         <div class="tab-container">
           <mat-card id="login-card">
             <h2 class="pl-3">Registrar</h2>
+            <!-- REGISTER FORM -->
             <form [formGroup]="registerForm">
               <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Nome</mat-label>
@@ -80,8 +103,18 @@
                   formControlName="name"
                   required
                 />
-                <mat-error *ngFor="let validation of account_validation_messages.name">
-                  <mat-error class="error-message" *ngIf="registerForm.get('name').hasError(validation.type) && (registerForm.get('name').dirty || registerForm.get('name').touched)">{{validation.message}}</mat-error>
+                <mat-error
+                  *ngFor="let validation of account_validation_messages.name"
+                >
+                  <mat-error
+                    class="error-message"
+                    *ngIf="
+                      registerForm.get('name').hasError(validation.type) &&
+                      (registerForm.get('name').dirty ||
+                        registerForm.get('name').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
                 </mat-error>
                 <mat-icon color="primary" matSuffix>person</mat-icon>
               </mat-form-field>
@@ -94,8 +127,18 @@
                   formControlName="email"
                   required
                 />
-                <mat-error *ngFor="let validation of account_validation_messages.email">
-                  <mat-error class="error-message" *ngIf="registerForm.get('email').hasError(validation.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">{{validation.message}}</mat-error>
+                <mat-error
+                  *ngFor="let validation of account_validation_messages.email"
+                >
+                  <mat-error
+                    class="error-message"
+                    *ngIf="
+                      registerForm.get('email').hasError(validation.type) &&
+                      (registerForm.get('email').dirty ||
+                        registerForm.get('email').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
                 </mat-error>
                 <mat-icon color="primary" matSuffix>email</mat-icon>
               </mat-form-field>
@@ -108,8 +151,20 @@
                   formControlName="password"
                   required
                 />
-                <mat-error *ngFor="let validation of account_validation_messages.password">
-                  <mat-error class="error-message" *ngIf="registerForm.get('password').hasError(validation.type) && (registerForm.get('password').dirty || registerForm.get('password').touched)">{{validation.message}}</mat-error>
+                <mat-error
+                  *ngFor="
+                    let validation of account_validation_messages.password
+                  "
+                >
+                  <mat-error
+                    class="error-message"
+                    *ngIf="
+                      registerForm.get('password').hasError(validation.type) &&
+                      (registerForm.get('password').dirty ||
+                        registerForm.get('password').touched)
+                    "
+                    >{{ validation.message }}</mat-error
+                  >
                 </mat-error>
                 <button
                   mat-icon-button
@@ -148,7 +203,7 @@
                 </button>
               </mat-form-field>
 
-              <button id="login-button" class="btn-block" mat-raised-button>
+              <button type="submit" (click)="tryRegister(registerForm)" id="login-button" class="btn-block" mat-raised-button>
                 Registrar
               </button>
             </form>
