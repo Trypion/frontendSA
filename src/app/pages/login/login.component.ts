@@ -153,9 +153,16 @@ export class LoginComponent implements OnInit {
   //angular fire auth ======================================================================
 
   tryRegister(form: FormGroup) {
-    console.log(form.value);
-    console.log(form.valid);
+    // console.log(form.value.email, form.value.password, form.value.name);
     if (form.valid) {
+      this.auth.registerUser(form.value.email, form.value.password, form.value.name);
+    }
+  }
+
+  loginWithEmailandPassword(form: FormGroup){
+    // console.log(form.value.email, form.value.password);
+    if(form.valid){
+      this.auth.emailSignin(form.value.email, form.value.password);
     }
   }
 

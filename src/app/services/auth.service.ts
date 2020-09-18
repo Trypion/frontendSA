@@ -34,16 +34,31 @@ export class AuthService {
     );
   }
 
-  async googleSignin() {
-    // this.afAuth.setPersistence(auth.Auth.Persistence.SESSION).then(async () => {
-      const provider = new auth.GoogleAuthProvider();
-      const credential = await this.afAuth.signInWithPopup(provider);
-      this.router.navigate(['/home']);
-      return this.updateUserData(credential.user);
-    // });
+  async registerUser(email: string, password: string, displayName:string) {
+    const credential = await this.afAuth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    this.router.navigate(['/home']);
+    return this.updateUserData(credential.user, displayName);
   }
 
-  private updateUserData(user) {
+  async googleSignin() {
+    const provider = new auth.GoogleAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    this.router.navigate(['/home']);
+    return this.updateUserData(credential.user);
+  }
+
+  async emailSignin(email: string, password: string) {
+    const credential = await this.afAuth.signInWithEmailAndPassword(
+      email,
+      password
+    )
+    this.router.navigate(['/home']);
+  }
+
+  private updateUserData(user, displayName?) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
       `users/${user.uid}`
@@ -55,6 +70,11 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
     };
+
+    if(displayName){
+      data.displayName = displayName;
+    }
+
     return userRef.set(data, { merge: true });
   }
 
