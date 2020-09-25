@@ -12,26 +12,18 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
-//material imports
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCardModule } from '@angular/material/card';
+//material import
+import { MaterialModule } from './utils/material-module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainComponent } from './pages/main/main.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
-  declarations: [AppComponent, LoginComponent, MainComponent, NavBarComponent,],
+  declarations: [AppComponent, LoginComponent, MainComponent, NavBarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,17 +33,10 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireAuthModule,
     AngularFirestoreModule,
     HttpClientModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
+    MaterialModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent],

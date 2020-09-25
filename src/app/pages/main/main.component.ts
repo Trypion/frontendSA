@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ItensService } from '../../services/itens.service';
 import { Item } from '../../services/item.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -10,28 +13,12 @@ import { Item } from '../../services/item.model';
   styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit {
-  constructor(public auth: AuthService, private itensService: ItensService) {
+  constructor(public auth: AuthService, private itensService: ItensService) {}
 
-  }
-
-  //  item2: Item = {
-  //   id: 123,
-  //   nome: "fdfda",
-  //   perfil: "fdfdsf",
-  //   gps: "fdsfsd",
-  //   validade: "fdsfds",
-  //   email_op: "fdsfsdfds",
-  // }
-
-  dataSource: any;
-  itens: Item[];
-
-  getItens() {
-    this.itensService.getItens().subscribe((itens: Item[]) => {
-      this.itens = itens;
-      console.log(this.itens);
-    });
-  }
+  dataSource: MatTableDataSource<Item>;
+  // itens: Item[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
     'id',
@@ -41,8 +28,6 @@ export class MainComponent implements OnInit {
     'validade',
     'email_op',
   ];
-  // dataSource = new MatTableDataSource(this.itens);
-  // dataSource = new MatTableDataSource(this.itensService.getItens();
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -50,10 +35,19 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.itensService.getItens().subscribe((itens: Item[]) => {
-      console.log(itens)
+    this.itensService.getItens().subscribe(async (itens: Item[]) => {
+      await itens.map((item, index) => {
+        this.itensService.reverseGeocode(item.gps).subscribe((response) => {
+          itens[index].gps = response.display_name;
+        });
+      });
       this.dataSource = new MatTableDataSource(itens);
-      console.log(itens)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
+
+    // this.itensService.reverseGeocode().subscribe((response)=>{
+    //   // console.log(response);
+    // })
   }
 }

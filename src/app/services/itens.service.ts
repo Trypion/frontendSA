@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Item } from './item.model';
@@ -11,6 +11,17 @@ export class ItensService {
 
   getItens(): Observable<Item[]> {
     return this.http.get<Item[]>('http://localhost:8080/Spice/api/item');
+  }
+
+  reverseGeocode(gps): Observable<any> {
+    const gpsLatLong = gps.split(',');
+    return this.http.get('https://nominatim.openstreetmap.org/reverse', {
+      params: {
+        format: 'json',
+        lat: gpsLatLong[0],
+        lon: gpsLatLong[1].trim(),
+      },
+    });
   }
 }
 
