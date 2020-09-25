@@ -40,6 +40,7 @@ export class AuthService {
       password
     );
     this.router.navigate(['/home']);
+
     return this.updateUserData(credential.user, displayName);
   }
 
@@ -59,6 +60,7 @@ export class AuthService {
   }
 
   private updateUserData(user, displayName?) {
+
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
       `users/${user.uid}`

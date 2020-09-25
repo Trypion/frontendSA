@@ -26,6 +26,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainComponent } from './pages/main/main.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { MatTableModule } from '@angular/material/table';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -38,6 +40,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
+    HttpClientModule,
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -48,6 +51,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent],
