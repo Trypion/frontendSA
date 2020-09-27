@@ -4,36 +4,64 @@
   <div id="tab-group-container">
     <mat-tab-group>
       <mat-tab label="First">
-        <h1>first tab</h1>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          multiTemplateDataRows
+          class="mat-elevation-z8"
+        >
+          <ng-container
+            matColumnDef="{{ column }}"
+            *ngFor="let column of columnsToDisplay"
+          >
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+          </ng-container>
 
-        <!-- <div *ngIf="auth.user$ | async; then authenticated; else guest">
-          template will replace this div
-        </div> -->
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplay.length"
+            >
+              <div
+                class="example-element-detail"
+                [@detailExpand]="
+                  element == expandedElement ? 'expanded' : 'collapsed'
+                "
+              >
 
-        <!-- User NOT logged in -->
-        <!-- <ng-template #guest>
-          <h3>Howdy, GUEST</h3>
-          <p>Login to get started...</p>
+              <h1>it works</h1>
 
-          <button (click)="auth.googleSignin()">
-            <i class="fa fa-google"></i> Connect Google
-          </button>
-        </ng-template> -->
+              </div>
+            </td>
+          </ng-container>
 
-        <!-- User logged in -->
-        <!-- <ng-template #authenticated>
-          <div *ngIf="auth.user$ | async as user">
-            <h3>Howdy, {{ user.displayName }}</h3>
-            <img [src]="user.photoURL" />
-            <p>UID: {{ user.uid }}</p>
-            <button (click)="auth.signOut()">Logout</button>
-          </div>
-        </ng-template> -->
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplay"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+              expandedElement = expandedElement === element ? null : element
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+          ></tr>
+        </table>
       </mat-tab>
       <mat-tab label="Second">
         <!-- segunda tab -->
         <div id="table-container">
           <div class="mat-elevation-z8">
+            <div class="loading-shade" *ngIf="isLoadingResults">
+              <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
             <mat-form-field>
               <mat-label>Filtro</mat-label>
               <input
@@ -72,8 +100,12 @@
 
               <!-- Symbol Column -->
               <ng-container matColumnDef="gps">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>endereço</th>
-                <td mat-cell *matCellDef="let itens" id="gps_td">{{ itens.gps }}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  endereço
+                </th>
+                <td mat-cell *matCellDef="let itens" id="gps_td">
+                  {{ itens.gps }}
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="validade">
