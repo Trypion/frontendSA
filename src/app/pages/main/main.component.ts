@@ -5,7 +5,8 @@ import { ItensService } from '../../services/itens.service';
 import { Item } from '../../services/item.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+
 import {
   animate,
   state,
@@ -13,6 +14,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
@@ -30,7 +33,27 @@ import {
   ],
 })
 export class MainComponent implements OnInit {
-  constructor(public auth: AuthService, private itensService: ItensService) {}
+  apiLoaded: Observable<boolean>;
+
+  //google maps
+  center: google.maps.LatLngLiteral = {lat: -27.595, lng: -48.555};
+  zoom = 10;
+  markerOptions: google.maps.MarkerOptions = {draggable: true};
+  markerPosition: google.maps.LatLngLiteral;
+
+  addMarker(event: google.maps.MouseEvent) {
+    this.markerPosition = event.latLng.toJSON();
+  }
+
+  constructor(public auth: AuthService, private itensService: ItensService, private httpClient: HttpClient) {
+
+
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyCAYZHrw8_gPd2TyoojlzKKAsfpMGhP6hk', 'callback')
+        .pipe(
+          map(() => true),
+          catchError(() => of(false)),
+        );
+  }
 
   // dataSource2 = ELEMENT_DATA;
   expandedElement: PeriodicElement | null;
@@ -70,6 +93,7 @@ export class MainComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+
 
     // this.itensService.reverseGeocode().subscribe((response)=>{
     //   // console.log(response);

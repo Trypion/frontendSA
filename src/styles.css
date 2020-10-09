@@ -14,6 +14,8 @@ body {
     rgba(253, 121, 29, 1) 48%,
     rgba(255, 162, 32, 1) 100%
   );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 :root{

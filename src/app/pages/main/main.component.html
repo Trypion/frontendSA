@@ -1,12 +1,79 @@
 <app-nav-bar></app-nav-bar>
 
-<div class="container">
+<div class="container mb-5">
   <div id="tab-group-container">
     <mat-tab-group>
+      <!-- TAB DE REGISTRO DOS ITENS -->
+      <mat-tab label="Registro">
+        <div class="register-tab-container p-5">
+          <form>
+            <mat-form-field appearance="outline">
+              <mat-label>Itens</mat-label>
+              <mat-select>
+                <mat-option value="Mangueira">Mangueira de gás</mat-option>
+                <mat-option value="Valvula">Válvula de gás</mat-option>
+                <mat-option value="Extintor">Extintor de incêndio</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="../../../assets/img/valvula validade.png"
+                alt=""
+              />
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Escolha a Data</mat-label>
+              <input matInput [matDatepicker]="picker" />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- google maps -->
+            <div *ngIf="apiLoaded | async">
+              <google-map
+                width="100%"
+                [center]="center"
+                [zoom]="zoom"
+                (mapClick)="addMarker($event)"
+              >
+                <map-marker
+                  [position]="markerPosition"
+                  [options]="markerOptions"
+                ></map-marker>
+              </google-map>
+            </div>
+
+            <!--Botão Confirmar  -->
+            <section>
+              <div class="button_row">
+                <button mat-raised-button color="warn">Confirmar</button>
+              </div>
+            </section>
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- TAB COM OS ITENS -->
       <mat-tab label="First">
+        <mat-form-field>
+          <mat-label>Filtro</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. valvula"
+            #input
+          />
+        </mat-form-field>
         <table
           mat-table
           [dataSource]="dataSource"
+          matSort
           multiTemplateDataRows
           class="mat-elevation-z8"
         >
@@ -14,7 +81,9 @@
             matColumnDef="{{ column }}"
             *ngFor="let column of columnsToDisplay"
           >
-            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ column }}
+            </th>
             <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
           </ng-container>
 
@@ -31,9 +100,7 @@
                   element == expandedElement ? 'expanded' : 'collapsed'
                 "
               >
-
-              <h1>it works</h1>
-
+                <h1>it works</h1>
               </div>
             </td>
           </ng-container>
@@ -53,7 +120,18 @@
             *matRowDef="let row; columns: ['expandedDetail']"
             class="example-detail-row"
           ></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              nenhum dado encontrado com o filtro: "{{ input.value }}"
+            </td>
+          </tr>
         </table>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
       </mat-tab>
       <mat-tab label="Second">
         <!-- segunda tab -->

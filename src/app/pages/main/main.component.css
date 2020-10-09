@@ -4,6 +4,8 @@
   justify-content: center;
 }
 
+
+
 #tab-group-container {
   width: 100%;
   margin-top: 5rem;
@@ -43,8 +45,14 @@ table {
   justify-content: center;
 }
 
+.card{
+  width: 65rem;
+  margin: auto;
+ }
+
 
 /* ================================================ */
+
 
 
 table {
